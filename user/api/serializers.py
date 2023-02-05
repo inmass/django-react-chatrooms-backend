@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 import re
+from user.models import Room
 
 def strongPasswordValidator(password):
     errors = []
@@ -45,3 +46,8 @@ class UserSerializer(serializers.ModelSerializer):
         )
         user.save()
         return user
+
+class RoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Room
+        fields = ('id', 'name', 'description', 'slug')
