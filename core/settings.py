@@ -28,9 +28,39 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+PRODUCTION = os.getenv('PRODUCTION', False)
+if PRODUCTION == 'true':
+    DEBUG = False
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'instagramdb',
+            'USER': 'admin',
+            'PASSWORD': '4yHTsI2SVaun3lYI',
+            'HOST': 'db',
+            'PORT': 5432,
+        }
+    }
 
-ALLOWED_HOSTS = []
+    # STATIC_URL = 'http://141.144.227.138:83/static/'
+    # MEDIA_URL = 'http://141.144.227.138:83/media/'
+    STATIC_URL = 'http://localhost:83/static/'
+    MEDIA_URL = 'http://localhost:83/media/'
+    
+else:
+    DEBUG = True
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -134,9 +164,9 @@ CHANNEL_LAYERS = {
         "CONFIG": {
             "hosts": [
                 # for docker compose use the service name
-                # ("redis", 6379),
+                ("redis", 6379),
                 # for a local install use localhost
-                ("localhost", 6379),
+                # ("localhost", 6379),
             ],
         },
     },
@@ -188,11 +218,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
