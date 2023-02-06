@@ -42,10 +42,8 @@ if PRODUCTION == 'true':
         }
     }
 
-    # STATIC_URL = 'http://141.144.227.138:83/static/'
-    # MEDIA_URL = 'http://141.144.227.138:83/media/'
-    STATIC_URL = 'http://localhost:83/static/'
-    MEDIA_URL = 'http://localhost:83/media/'
+    STATIC_URL = 'http://141.144.227.138:83/static/'
+    MEDIA_URL = 'http://141.144.227.138:83/media/'
     
 else:
     DEBUG = True
@@ -173,16 +171,6 @@ CHANNEL_LAYERS = {
 }
 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -227,7 +215,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS
-# CORS_ALLOWED_ORIGINS = [
-#   "http://localhost:3000",
-# ]
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+  os.environ.get('CORS_ALLOWED_ORIGINS_PROD'),
+  os.environ.get('CORS_ALLOWED_ORIGINS_DEV'),
+]
+# CORS_ALLOW_ALL_ORIGINS = True
